@@ -8,3 +8,5 @@ Główne funkcjonalności:
    2) Anulacja rezerwacji.
    3) Powiadomienia mailowe dotyczące rezerwacji.
 
+
+
