@@ -1,0 +1,10 @@
+Opis projektu: 
+
+Autor: Alicja Skurczynska
+Temat: System rezerwacji hotelowej
+Technologia: ASP.Net
+Główne funkcjonalności: 
+   1) Zarezerwowanie pokoju.
+   2) Anulacja rezerwacji.
+   3) Powiadomienia mailowe dotyczące rezerwacji.
+
