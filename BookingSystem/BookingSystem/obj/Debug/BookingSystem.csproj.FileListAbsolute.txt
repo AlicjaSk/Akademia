@@ -65,3 +65,7 @@ M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\bin\Microsoft.A
 M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\obj\Debug\BookingSystem.csprojResolveAssemblyReference.cache
 M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\obj\Debug\BookingSystem.dll
 M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\obj\Debug\BookingSystem.pdb
+M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\bin\EntityFramework.dll
+M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\bin\EntityFramework.SqlServer.dll
+M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\bin\EntityFramework.xml
+M:\nauka\Akademia c#\clones\Akademia\BookingSystem\BookingSystem\bin\EntityFramework.SqlServer.xml
