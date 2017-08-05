@@ -1,9 +1,10 @@
 CREATE TABLE Person (
 	IDPerson INTEGER IDENTITY PRIMARY KEY,
+	Email CHAR(255) NOT NULL,
 	FirstName CHAR(50) NOT NULL, 
 	LastName CHAR(100) NOT NULL,
 	Login CHAR(30) NOT NULL,
-	Password CHAR(15) NOT NULL,
+	Password VARBINARY(50) NOT NULL,
 	IsStaff BIT ,
 	IsAdmin BIT
 );
@@ -19,6 +20,7 @@ CREATE TABLE Room(
 	TypeOfRoom_FK Integer,
 	NumberOfRoom INTEGER,
 	FloorNr INTEGER,
+	CostPerNight FLOAT,
 	FOREIGN KEY(TypeOfRoom_FK) REFERENCES TypeOfRoom(IDTypeOfRoom)
 );
 
@@ -31,10 +33,10 @@ CREATE TABLE Reservation (
 	IDReservation INTEGER IDENTITY PRIMARY KEY,
 	CheckIn DATETIME NOT NULL, 
 	CheckOut DATETIME NOT NULL,
-	Room_FK INTEGER ,
-	Status_FK INTEGER,
+	Room_FK INTEGER NOT NULL,
+	Status_FK INTEGER NOT NULL,
 	Cost FLOAT,
-	Person_FK INTEGER,
+	Person_FK INTEGER NOT NULL,
 	FOREIGN KEY(Person_FK) REFERENCES Person(IDPerson),
 	FOREIGN KEY(Room_FK) REFERENCES Room(IDRoom),
 	FOREIGN KEY(Status_FK) REFERENCES StatusOfReservation(IDStatus)

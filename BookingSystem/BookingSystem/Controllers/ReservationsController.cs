@@ -118,6 +118,15 @@ namespace BookingSystem.Controllers
             return View(reservation);
         }
 
+        private static bool checkIfDatesHaveCommonPart(Dictionary<DateTime, bool> dictionary)
+        {
+            var sortedDict = from entry in dictionary orderby entry.Key ascending select entry;
+            if (sortedDict.ToList()[0].Value == sortedDict.ToList()[1].Value)
+                return true;
+            else
+                return false;
+        }
+
         // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -131,69 +140,39 @@ namespace BookingSystem.Controllers
 
         public ActionResult CheckAvailabilityOfRoom([Bind(Include = "IDReservation,CheckIn,CheckOut,Room_FK,Status_FK,Cost,Person_FK")] Reservation reservation)
         {
-            var tmp = Request.Form["TypesOfRooms"].ToString();
-
-
-            var reservationForSpecificTypeOfRooms = db.Reservation.Where(rec => rec.Room.TypeOfRoom.IDTypeOfRoom == int.Parse(tmp)).ToList();
+            var tmp = Request.Form["TypesOfRooms"];
+            var reservationForSpecificTypeOfRooms = db.Reservation.Where(rec => rec.Room.TypeOfRoom.IDTypeOfRoom.ToString() == tmp);
             var roomsSpecificType = db.Room
-                .Where(rec => rec.TypeOfRoom.IDTypeOfRoom == int.Parse(tmp));
+                .Where(rec => rec.TypeOfRoom.IDTypeOfRoom.ToString() == tmp);
+            var rooms = new Dictionary<int, bool>();
+            roomsSpecificType.ToList().ForEach(room => rooms.Add(room.IDRoom, true));
 
-
-            int IDRoomForReservation = -1;
             foreach (var reserv in reservationForSpecificTypeOfRooms)
             {
-                if (!roomsSpecificType.ToList().Select(rec=>rec.IDRoom).Contains(reserv.Room.IDRoom)){
-                    IDRoomForReservation = reserv.Room.IDRoom;
-                    break;
+               if (checkIfDatesHaveCommonPart(new Dictionary<DateTime, bool>()
+                {
+                    { reserv.CheckIn, true},
+                    { reserv.CheckOut, true},
+                    { reservation.CheckIn, false},
+                    { reservation.CheckOut, false}
+                }))
+                {
+                    rooms[reserv.Room_FK] = false;
                 }
             }
+            int freeRoomId = -1;
+            rooms.ToList().ForEach(r => freeRoomId = (r.Value == true) ? r.Key : -1);
 
-            if (IDRoomForReservation != -1)
+            
+            if (freeRoomId != -1)
             {
-                return RedirectToAction("Details", "Rooms", new { id = IDRoomForReservation });
+
+                reservation.Room_FK = freeRoomId;
+                TempData["reservation"] = reservation;  
+                return RedirectToAction("ReservationOfRoom", "Rooms");
             }
-
-            //var reservedRooms = new List<>();
-
-
-
-            //bool reservedInSelectedTime=false;
-            //foreach (var reserv in db.Reservation)
-            //{
-            //   if(reservation.CheckIn >= reserv.CheckIn && reservation.CheckIn <= reserv.CheckOut)
-            //    {
-            //        reservedInSelectedTime = true;
-            //    }
-            //    if (reservation.CheckOut >= reserv.CheckIn && reservation.CheckOut <= reserv.CheckOut)
-            //    {
-            //        reservedInSelectedTime = true;
-            //    }
-
-            //    if (reservedInSelectedTime)
-            //    {
-            //        reservedRooms.Add(reserv);
-            //        reservedInSelectedTime = false;
-            //    }
-            //}
-
-
-            //var rooms = db.Room.Where(record=>record.TypeOfRoom.IDTypeOfRoom == Int32.Parse(tmp)); 
-            //reservationForSpecificRoom
-
-            //foreach(var r in reservedRooms)
-            //{
-            //    if (r.Room.TypeOfRoom.IDTypeOfRoom == Int32.Parse(tmp)) {
-            //        rooms.Remove(r.Room);
-            //    }
-            //    else
-            //    {
-            //        rooms.Remove(r.Room);
-            //    }
-            //}
-
-
-
-            return View();
+            else
+                return RedirectToAction("Index", "Rooms");
         }
 
         protected override void Dispose(bool disposing)
@@ -203,6 +182,19 @@ namespace BookingSystem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // GET: Reservations/ReservationOfRoom/5
+        public ActionResult ReservationOfRoom(int? id)
+        {
+           
+            Room room = db.Room.Find(id);
+            if (room == null)
+            {
+                return HttpNotFound();
+            }
+            // ViewBag.reservation = reserv;
+            return View(room);
         }
 
 

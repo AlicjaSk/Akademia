@@ -9,9 +9,11 @@
 
 namespace BookingSystem.Models
 {
+    using System.ComponentModel.DataAnnotations;
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class Person
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,9 +23,13 @@ namespace BookingSystem.Models
         }
     
         public int IDPerson { get; set; }
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
+        public string Email { get; set; }
         public string Login { get; set; }
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         public Nullable<bool> IsStaff { get; set; }
         public Nullable<bool> IsAdmin { get; set; }

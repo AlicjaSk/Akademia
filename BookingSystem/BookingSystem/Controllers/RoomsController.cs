@@ -36,6 +36,7 @@ namespace BookingSystem.Controllers
             return View(room);
         }
 
+
         // GET: Rooms/Create
         public ActionResult Create()
         {
@@ -127,6 +128,28 @@ namespace BookingSystem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // GET: Reservations/ReservationOfRoom/5
+        public ActionResult ReservationOfRoom(int? id)
+        {
+            if (TempData["reservation"] != null)
+            {
+                Reservation reservation = (Reservation)TempData["reservation"];
+                TempData.Keep("reservation");
+                Room room = db.Room.Find(reservation.Room_FK);
+                reservation.Room = room;
+                if (room == null)
+                {
+                    return HttpNotFound();
+                }
+                // ViewBag.reservation = reserv;
+                return View(reservation);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

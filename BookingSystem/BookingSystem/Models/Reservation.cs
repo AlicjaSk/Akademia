@@ -22,10 +22,10 @@ namespace BookingSystem.Models
         [Display(Name = "Check-out")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public System.DateTime CheckOut { get; set; }
-        public Nullable<int> Room_FK { get; set; }
-        public Nullable<int> Status_FK { get; set; }
+        public int Room_FK { get; set; }
+        public int Status_FK { get; set; }
         public Nullable<double> Cost { get; set; }
-        public Nullable<int> Person_FK { get; set; }
+        public int Person_FK { get; set; }
     
         public virtual Person Person { get; set; }
         [Display(Name = "Room")]
