@@ -1,0 +1,28 @@
+﻿@model BookingSystem.Models.Reservation
+
+
+    <h4>Check Availability</h4>
+    <i class="fa fa-calendar" style="font-size:36px"></i>@Html.DisplayFor(model => model.CheckIn) - @Html.DisplayFor(model => model.CheckOut)
+
+
+    <br /><br /> 
+    <div class="container">
+
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Room Type</th>
+                <th>Cost per night</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.Room.TypeOfRoom.Information)</td>
+                <td>58$</td>
+            </tr>
+        </table>
+    </div>
+@Html.ActionLink("Reserve", "Index", "Home", new { @class = "btn btn-primary", @style = "text-align:center;color:white" })
+
+    
+
+
+<h2>ReservationOfRoom</h2>
+
